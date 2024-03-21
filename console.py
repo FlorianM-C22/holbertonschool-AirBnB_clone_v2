@@ -81,9 +81,7 @@ class HBNBCommand(cmd.Cmd):
                         # _args = _args.replace('\"', '')
             line = ' '.join([_cmd, _cls, _id, _args])
 
-        except Exception as mess:
-            pass
-        finally:
+        except Exception:
             return line
 
     def postcmd(self, stop, line):
