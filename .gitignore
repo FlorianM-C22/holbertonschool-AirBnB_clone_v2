@@ -2,3 +2,4 @@ __pycache__/
 *main.py
 *.json
 test_params_create
+main_delete.py
