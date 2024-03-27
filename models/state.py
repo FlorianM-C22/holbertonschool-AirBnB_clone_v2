@@ -4,21 +4,22 @@ from models.base_model import BaseModel, Base
 from sqlalchemy import Column, String
 from sqlalchemy.orm import relationship
 from models.city import City
-import os
+from os import getenv
 
 
 class State(BaseModel, Base):
     """ State class """
-    __tablename__ = 'states'
+    __tablename__ = "states"
     name = Column(String(128), nullable=False)
-    if os.getenv('HBNB_TYPE_STORAGE') == 'db':
-        cities = relationship('City', cascade='all, delete', backref='state',
+
+    if getenv('HBNB_TYPE_STORAGE') == 'db':
+        cities = relationship("City", cascade="all, delete", backref="state",
                               passive_deletes=True)
     else:
         @property
         def cities(self):
-            """Getter attribute cities that returns the list of City instances
-            with state_id equals to the current State.id"""
+            """Return the list of City instances with state_id
+            equals to the current State.id"""
             from models import storage
             state_cities = []
             all_cities = storage.all(City)
