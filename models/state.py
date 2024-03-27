@@ -20,9 +20,9 @@ class State(BaseModel, Base):
             """Getter attribute cities that returns the list of City instances
             with state_id equals to the current State.id"""
             from models import storage
-            city_list = []
+            state_cities = []
             all_cities = storage.all(City)
             for city in all_cities.values():
                 if city.state_id == self.id:
-                    city_list.append(city)
-            return city_list
+                    state_cities.append(city)
+            return state_cities

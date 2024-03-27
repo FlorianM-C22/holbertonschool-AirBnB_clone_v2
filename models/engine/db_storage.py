@@ -12,21 +12,26 @@ class DBStorage:
     __session = None
 
     def __init__(self):
-        """Constructor of the class DBStorage"""
+        """Constructor method"""
         from models.base_model import Base
-        user = getenv('HBNB_MYSQL_USER')
-        password = getenv('HBNB_MYSQL_PWD')
-        host = getenv('HBNB_MYSQL_HOST')
-        database = getenv('HBNB_MYSQL_DB')
-        env = getenv('HBNB_ENV')
+
+        user = getenv("HBNB_MYSQL_USER")
+        passwd = getenv("HBNB_MYSQL_PWD")
+        host = getenv("HBNB_MYSQL_HOST")
+        db = getenv("HBNB_MYSQL_DB")
+        env = getenv("HBNB_ENV")
+        url = "mysql+mysqldb://{}:{}@{}/{}".format(user, passwd, host, db)
+        self.__engine = create_engine(url, pool_pre_ping=True)
+        if env is not None and env == "test":
+            Base.metadata.drop_all(bind=self.__engine)
 
         self.__engine = create_engine(
             'mysql+mysqldb://{}:{}@{}/{}'.format(
-                user, password, host, database),
+                user, passwd, host, db),
             pool_pre_ping=True)
 
-        if env == 'test':
-            Base.metadata.drop_all(self.__engine)
+        if env is not None and env == "test":
+            Base.metadata.drop_all(bind=self.__engine)
 
     def all(self, cls=None):
         """Returns a dictionary of objects"""
@@ -45,6 +50,7 @@ class DBStorage:
             "amenities": Amenity,
             "reviews": Review,
         }
+
         dict_entries = {}
         if cls is None:
             for base_class in tables.values():
