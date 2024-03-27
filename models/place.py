@@ -9,7 +9,6 @@ from models import storage
 from os import getenv
 
 
-
 place_amenity = Table(
     "place_amenity",
     Base.metadata,
