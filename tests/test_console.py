@@ -1,18 +1,23 @@
 #!/usr/bin/python3
 """Unittest module for the console"""
-
 import unittest
 from console import HBNBCommand
 from models.engine.file_storage import FileStorage
 from unittest.mock import patch
 import io
+from models.user import User
+from models.place import Place
+from models.state import State
+from models.city import City
+from models.amenity import Amenity
+from models.review import Review
+import json
 import pycodestyle
 import os
 
 
 class TestCommand(unittest.TestCase):
     """Tests for the console"""
-
     def setUp(self):
         """Function used to empty file.json"""
         FileStorage._FileStorage__objects = {}
@@ -102,7 +107,6 @@ class TestCommand(unittest.TestCase):
         self.assertEqual(f.getvalue(), opt)
 
     def test_doc_console(self):
-        """Test if console and its methods have docstrings"""
         self.assertIsNotNone(HBNBCommand.__doc__)
         self.assertIsNotNone(HBNBCommand.do_all.__doc__)
         self.assertIsNotNone(HBNBCommand.do_create.__doc__)
