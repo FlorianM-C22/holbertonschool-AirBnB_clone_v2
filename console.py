@@ -112,48 +112,29 @@ class HBNBCommand(cmd.Cmd):
         pass
 
     def do_create(self, args):
-        """ Create an object of any class with given parameters"""
-        if not args:
+        """Create an object of any class"""
+        pline = args.split()
+        if pline == []:
             print("** class name missing **")
             return
-        elif args.split(' ')[0] not in HBNBCommand.classes:
+        elif pline[0] not in HBNBCommand.classes:
             print("** class doesn't exist **")
             return
-        # Split the arguments into class name and parameters
-        class_name, *params = args.split(' ')
-        # Create an instance of the class
-        new_instance = HBNBCommand.classes[class_name]()
-        # Parse and set the parameters
-        for param in params:
-            # Split the parameter into key and value
-            key, value = param.split('=')
-            # Remove any leading or trailing spaces
-            key = key.strip()
-            value = value.strip()
-            # Handle string values
-            if value.startswith('"') and value.endswith('"'):
-                # Remove the double quotes
-                value = value[1:-1]
-                # Replace underscores with spaces
-                value = value.replace('_', ' ')
-            # Handle float values
-            elif '.' in value:
-                try:
-                    value = float(value)
-                except ValueError:
-                    continue
-            # Handle integer values
-            else:
-                try:
-                    value = int(value)
-                except ValueError:
-                    continue
-            # Set the attribute of the instance
-            setattr(new_instance, key, value)
-        # Save the instance
+        new_instance = HBNBCommand.classes[pline[0]]()
+        for i in range(1, len(pline)):
+            try:
+                s = pline[i].split("=")
+                if s[1][0] == '"':
+                    s[1] = s[1].replace("_", " ")
+                    setattr(new_instance, s[0], s[1][1:-1])
+                elif "." in s[1]:
+                    setattr(new_instance, s[0], float(s[1]))
+                else:
+                    setattr(new_instance, s[0], int(s[1]))
+            except Exception:
+                continue
         new_instance.save()
         print(new_instance.id)
-        storage.save()
 
     def help_create(self):
         """ Help information for the create method """
