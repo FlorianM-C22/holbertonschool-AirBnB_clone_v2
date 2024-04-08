@@ -1253,4 +1253,4 @@ General
     How to create a HTML response in Flask by using a template
     How to create a dynamic template (loops, conditions…)
     How to display in HTML data from a MySQL database
->>>>>>> adc5db0d26aaccb4cea9a4f05ab38b52617ed356
+>>>>>>>
