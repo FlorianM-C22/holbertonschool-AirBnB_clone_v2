@@ -14,10 +14,11 @@ def close(exception):
     storage.close()
 
 
-@app.route("/states_list", strict_slashes=False)
-def states():
-    """List all states"""
-    return render_template("7-states_list.html", states=storage.all(State))
+@app.route('/cities_by_states', strict_slashes=False)
+def cities_states():
+    """List all cities by states"""
+    return render_template('8-cities_by_states.html',
+                           states=storage.all(State))
 
 
 if __name__ == "__main__":
