@@ -1,9 +1,8 @@
 #!/usr/bin/python3
 """Starts a Flask web application"""
 
-from flask import Flask
-from markupsafe import escape
-from flask import render_template
+from flask import Flask, render_template
+
 
 app = Flask(__name__)
 
@@ -37,7 +36,7 @@ def python_route(text='is cool'):
 @app.route("/number/<int:n>", strict_slashes=False)
 def number_route(n):
     """ Return number page"""
-    return "{} is a number".format(escape(n))
+    return "{} is a number".format(n)
 
 
 @app.route("/number_template/<int:n>", strict_slashes=False)
@@ -49,9 +48,9 @@ def number_template(n):
 @app.route("/number_odd_or_even/<int:n>", strict_slashes=False)
 def number_odd_or_even(n):
     """ Return text in page number"""
-    return render_template('6-number_odd_or_even.html', number=n)
+    return render_template('6-number_odd_or_even.html', number=n,
+                           odd_or_even="even" if n % 2 == 0 else "odd")
 
 
 if __name__ == '__main__':
-    """ """
     app.run(host='0.0.0.0', port=5000)
