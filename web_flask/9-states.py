@@ -1,5 +1,6 @@
 #!/usr/bin/python3
 """Starts a Flask web application"""
+
 from flask import Flask, render_template
 from models import storage
 from models.state import State
@@ -9,19 +10,20 @@ app = Flask(__name__)
 
 
 @app.teardown_appcontext
-def teardown_session(exception):
+def close(exception):
+    """Close storage"""
     storage.close()
 
 
 @app.route("/states", strict_slashes=False)
 def states():
     """List all states"""
-    return render_template("9-states.html", states=storage.all(State).values())
+    return render_template("9-states.html", states=storage.all(State))
 
 
-@app.route('/states/<id>', strict_slashes=False)
-def cities_in_state(id):
-    """List all cities in the state id that was given"""
+@app.route("/states/<id>", strict_slashes=False)
+def cities_state_id(id):
+    """List all states or state found with id"""
     states = storage.all(State).values()
     state = None
     for obj in states:
